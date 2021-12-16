@@ -1,0 +1,12 @@
+.content {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+}
+
+.textarea {
+  border-radius: 4px;
+  border-color: transparent;
+  flex: 1;
+  width: 100%;
+}

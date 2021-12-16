@@ -4,6 +4,8 @@
   grid-template-areas: "sidebar content";
   gap: 20px;
   height: 100vh;
+  overflow: hidden;
+  background-color: #eee;
 }
 
 .sidebar {
@@ -11,6 +13,8 @@
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
+  overflow-y: auto;
+  background-color: #fff;
 }
 
 .content {
@@ -18,4 +22,13 @@
   display: flex;
   justify-content: center;
   flex: 1;
+  overflow: hidden;
+}
+
+.empty {
+  height: 100vh;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 }

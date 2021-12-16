@@ -1,9 +1,84 @@
-import styles from "./Content.module.css";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { Note } from "../../models/note";
+import { useAppDispatch } from "../../store/hooks";
+import notes, { updateNote } from "../../store/notes";
+import { updateNotification } from "../../store/UI";
+import styles from "./Content.module.css";
+
+const AUTOSAVE_INTERVAL = 2000;
+const LAST_SAVE_INTERVAL = 1000;
 
 const Content: React.FC<{ note: Note }> = (props) => {
   const { note } = props;
-  return <div className={styles.header}>{note.text}</div>;
+  const [text, updateText] = useState(note.text);
+  const textareaRef: RefObject<HTMLTextAreaElement> = useRef<HTMLTextAreaElement>(
+    null
+  );
+
+  const dispatch = useAppDispatch();
+
+  const save = () => {
+    const updatedText: string = text || "";
+    const lastUpdate: number = new Date().getTime();
+    const updatedNote: Note = {
+      id: note.id,
+      text: updatedText,
+      lastSave: lastUpdate,
+    };
+    dispatch(updateNote(updatedNote));
+  };
+
+  const secondsAgo = (ms: number) => {
+    return Math.round(new Date().getTime() / 1000) - Math.round(ms / 1000);
+  };
+
+  const updateLastSaved = (message: string) => {
+    dispatch(updateNotification(message));
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      note.lastSave &&
+        updateLastSaved(`Last saved ${secondsAgo(note.lastSave!)} seconds ago`);
+    }, LAST_SAVE_INTERVAL);
+    return () => clearInterval(interval);
+  }, [note.lastSave]);
+
+  useEffect(() => {
+    if (!text && !note.text) return;
+    const timer = setTimeout(() => {
+      save();
+    }, AUTOSAVE_INTERVAL);
+    return () => clearTimeout(timer);
+  }, [text]);
+
+  useEffect(() => {
+    updateText(note.text);
+    textareaRef.current!.focus();
+
+    return () => updateLastSaved("");
+  }, [note.id]);
+
+  const onBlurHandler = () => {
+    save();
+  };
+
+  const onChangeHandler = () => {
+    const text = textareaRef.current!.value;
+    updateText(text);
+  };
+
+  return (
+    <div className={styles.content}>
+      <textarea
+        ref={textareaRef}
+        className={styles.textarea}
+        onBlur={onBlurHandler}
+        onChange={onChangeHandler}
+        value={text}
+      ></textarea>
+    </div>
+  );
 };
 
 export default Content;

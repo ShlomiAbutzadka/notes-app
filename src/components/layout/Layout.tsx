@@ -22,7 +22,14 @@ const Layout: React.FC = (props) => {
   const selectItemHandler = (id: string) => {
     dispatch(selectNote(id));
   };
-  
+
+  if (!items.length)
+    return (
+      <>
+        <Header selected={selected} />
+        <div className={styles.empty}>Please create a new note.</div>
+      </>
+    );
   return (
     <>
       <Header selected={selected} />
@@ -44,11 +51,7 @@ const Layout: React.FC = (props) => {
           </List>
         </div>
         <div className={styles.content}>
-          {selectedNote ? (
-            <Content note={selectedNote} />
-          ) : (
-            "Please create a new note."
-          )}
+          {selectedNote && <Content note={selectedNote} />}
         </div>
       </div>
     </>

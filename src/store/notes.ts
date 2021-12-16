@@ -26,6 +26,8 @@ export const notesSlice = createSlice({
       const { payload: updatedItem } = action;
       const { selected } = state;
       if (!selected) return;
+      const index = state.items.findIndex((item) => item.id === updatedItem.id);
+      state.items[index] = updatedItem;
     },
     deleteNote: (state) => {
       state.items = state.items.filter(

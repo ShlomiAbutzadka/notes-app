@@ -1,10 +1,16 @@
 import Button from "@mui/material/Button";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import { useAppDispatch } from "../../store/hooks";
 import { addNote, deleteNote } from "../../store/notes";
+import { UIState } from "../../store/UI";
 import styles from "./Header.module.css";
 
 const Header: React.FC<{ selected?: string }> = (props) => {
+  const uiState: UIState = useSelector((state: RootState) => state.ui);
   const dispatch = useAppDispatch();
+
+  const { notification } = uiState;
 
   const newClickHandler = () => {
     dispatch(addNote());
@@ -20,7 +26,7 @@ const Header: React.FC<{ selected?: string }> = (props) => {
     <>
       <div className={styles.header}>
         <div className={styles.title}>Notes</div>
-        <div className={styles.notification}>Last saved 3 seconds ago</div>
+        <div className={styles.notification}>{notification}</div>
         <div className={styles.actions}>
           <Button
             variant="contained"

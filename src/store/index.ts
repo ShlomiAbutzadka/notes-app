@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { notesSlice } from "./notes";
+import { uiSlice } from "./UI";
 
 export const store = configureStore({
   reducer: {
-      notes: notesSlice.reducer
+    notes: notesSlice.reducer,
+    ui: uiSlice.reducer,
   },
 });
 
