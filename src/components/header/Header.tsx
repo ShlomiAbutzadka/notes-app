@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useAppDispatch } from "../../store/hooks";
 import { createNote, deleteNote } from "../../store/notes";
-import { UIState } from "../../store/UI";
+import { openModal, UIState } from "../../store/UI";
 import styles from "./Header.module.css";
 
 const Header: React.FC<{ selected?: string }> = (props) => {
@@ -17,7 +17,7 @@ const Header: React.FC<{ selected?: string }> = (props) => {
   };
 
   const deleteClickHandler = () => {
-    dispatch(deleteNote(selected!));
+      dispatch(openModal());
   };
 
   const { selected } = props;

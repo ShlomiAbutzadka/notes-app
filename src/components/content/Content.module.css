@@ -11,4 +11,5 @@
   width: 100%;
   font-family: Inter;
   padding: 16px;
+  resize: none;
 }

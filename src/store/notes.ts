@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import * as api from "../api/notes";
 import { Note } from "../models/note";
 import { AppDispatch, RootState } from "./index";
-import { finishLoading, startLoading, updateNotification } from "./UI";
+import { closeModal, finishLoading, startLoading, updateNotification } from "./UI";
 
 export interface NotesState {
   items: Note[];
@@ -65,6 +65,7 @@ export const deleteNote = (id: string) => async (
   await api.deleteNote(id);
   dispatch(removeNote(id));
   dispatch(updateNotification(''));
+  dispatch(closeModal());
 };
 
 export const updateNote = (note: Note) => async (

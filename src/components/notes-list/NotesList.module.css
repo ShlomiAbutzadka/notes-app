@@ -1,0 +1,12 @@
+.item {
+  display: block !important;
+}
+
+.itemText {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

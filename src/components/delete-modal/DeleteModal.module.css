@@ -1,0 +1,11 @@
+.actions {
+    margin-top: 32px;
+    display: flex;
+    font-family: "Inter";
+    justify-content: flex-end;
+  }
+  
+  .actions button {
+    margin: 0 4px;
+    font-weight: 600;
+  }

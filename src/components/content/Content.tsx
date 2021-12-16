@@ -11,6 +11,7 @@ const LAST_SAVE_INTERVAL = 1000;
 const Content: React.FC<{ note: Note }> = (props) => {
   const { note } = props;
   const [text, updateText] = useState(note.text);
+  const [dirty, setDirty] = useState(false);
   const textareaRef: RefObject<HTMLTextAreaElement> = useRef<HTMLTextAreaElement>(
     null
   );
@@ -43,7 +44,7 @@ const Content: React.FC<{ note: Note }> = (props) => {
   }, [note.lastSave]);
 
   useEffect(() => {
-    if (!text && !note.text) return;
+    if (!text && !note.text || !dirty) return;
     const timer = setTimeout(() => {
       save();
     }, AUTOSAVE_INTERVAL);
@@ -51,18 +52,21 @@ const Content: React.FC<{ note: Note }> = (props) => {
   }, [text]);
 
   useEffect(() => {
+    setDirty(false);
     updateText(note.text);
     textareaRef.current!.focus();
 
   }, [note.id]);
 
   const onBlurHandler = () => {
+    if (!dirty) return;
     save();
   };
 
   const onChangeHandler = () => {
     const text = textareaRef.current!.value;
     updateText(text);
+    setDirty(true);
   };
 
   return (

@@ -38,7 +38,7 @@ const updateNote = (note: Note) => {
 const deleteNote = (id: string) => {
   return new Promise<void>(async (resolve) => {
     const { notes } = await getNotes();
-    const filtered = notes.filter((note: Note) => note.id === id);
+    const filtered = notes.filter((note: Note) => note.id !== id);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
     resolve();
   });

@@ -1,0 +1,25 @@
+.wrapper {
+    height: 100vh;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .svg {
+      width: 240px;
+  }
+
+  .title {
+      margin-top: 64px;
+      font-size: 32px;
+      color: #777;
+      font-weight: 600;
+  }
+
+  .subtitle {
+      margin-top: 16px;
+      font-size: 18px;
+      color: #555;
+  }

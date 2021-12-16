@@ -2,7 +2,8 @@
   background-color: #121212;
   display: flex;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: 0 16px;
+  height: 56px;
 }
 
 .title {
@@ -10,7 +11,7 @@
   font-weight: 600;
   font-size: 24px;
   font-family: "Inter";
-  color: #9C27B0;
+  color: #fff;
 }
 
 .notification {
@@ -30,6 +31,7 @@
   display: flex;
   justify-content: space-between;
   font-family: "Inter";
+  padding: 8px 0;
 }
 
 .actions button {

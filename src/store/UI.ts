@@ -3,9 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface UIState {
   notification: string;
   loading: boolean;
+  modalOpen: boolean;
 }
 
-const initialState: UIState = { notification: "", loading: false };
+const initialState: UIState = {
+  notification: "",
+  loading: false,
+  modalOpen: false,
+};
 
 export const uiSlice = createSlice({
   name: "ui",
@@ -20,9 +25,21 @@ export const uiSlice = createSlice({
     finishLoading: (state) => {
       state.loading = false;
     },
+    openModal: (state) => {
+      state.modalOpen = true;
+    },
+    closeModal: (state) => {
+      state.modalOpen = false;
+    },
   },
 });
 
-export const { updateNotification, startLoading, finishLoading } = uiSlice.actions;
+export const {
+  updateNotification,
+  startLoading,
+  finishLoading,
+  openModal,
+  closeModal,
+} = uiSlice.actions;
 
 export default uiSlice.reducer;
