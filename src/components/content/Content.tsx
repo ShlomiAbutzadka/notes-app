@@ -19,11 +19,9 @@ const Content: React.FC<{ note: Note }> = (props) => {
 
   const save = () => {
     const updatedText: string = text || "";
-    const lastUpdate: number = new Date().getTime();
     const updatedNote: Note = {
-      id: note.id,
+      ...note,
       text: updatedText,
-      lastSave: lastUpdate,
     };
     dispatch(updateNote(updatedNote));
   };
@@ -56,7 +54,6 @@ const Content: React.FC<{ note: Note }> = (props) => {
     updateText(note.text);
     textareaRef.current!.focus();
 
-    return () => updateLastSaved("");
   }, [note.id]);
 
   const onBlurHandler = () => {

@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import * as api from "../api/notes";
 import { Note } from "../models/note";
-import { RootState } from "./index";
-import { v4 as uuidv4 } from "uuid";
+import { AppDispatch, RootState } from "./index";
+import { finishLoading, startLoading, updateNotification } from "./UI";
 
 export interface NotesState {
   items: Note[];
@@ -16,22 +17,23 @@ export const notesSlice = createSlice({
   name: "notes",
   initialState,
   reducers: {
-    addNote: (state) => {
-      const id: string = uuidv4();
-      const newNote: Note = { id, text: "" };
-      state.items.push(newNote);
-      state.selected = id;
+    loadNotes: (state, action) => {
+      state.items = action.payload;
     },
-    updateNote: (state, action) => {
+    addNote: (state, action) => {
+      state.items.push(action.payload);
+      state.selected = action.payload.id;
+    },
+    saveNote: (state, action) => {
       const { payload: updatedItem } = action;
       const { selected } = state;
       if (!selected) return;
       const index = state.items.findIndex((item) => item.id === updatedItem.id);
       state.items[index] = updatedItem;
     },
-    deleteNote: (state) => {
+    removeNote: (state, action) => {
       state.items = state.items.filter(
-        (item, index) => item.id !== state.selected
+        (item, index) => item.id !== action.payload
       );
       state.selected = state.items.length ? state.items[0].id : undefined;
     },
@@ -41,11 +43,43 @@ export const notesSlice = createSlice({
   },
 });
 
+export const getNotes = () => async (dispatch: AppDispatch) => {
+  dispatch(startLoading());
+  const { notes } = await api.getNotes();
+  dispatch(loadNotes(notes));
+  notes.length && dispatch(selectNote(notes[0].id))
+  dispatch(finishLoading());
+};
+
+export const createNote = () => async (
+  dispatch: AppDispatch
+) => {
+  const { note } = await api.createNote();
+  dispatch(addNote(note));
+};
+
+export const deleteNote = (id: string) => async (
+  dispatch: AppDispatch
+) => {
+    dispatch(updateNotification('Note deleted...'));
+  await api.deleteNote(id);
+  dispatch(removeNote(id));
+  dispatch(updateNotification(''));
+};
+
+export const updateNote = (note: Note) => async (
+  dispatch: AppDispatch
+) => {
+  const {updated} = await api.updateNote(note);
+  dispatch(saveNote(updated));
+};
+
 export const {
   addNote,
-  updateNote,
+  saveNote,
   selectNote,
-  deleteNote,
+  removeNote,
+  loadNotes,
 } = notesSlice.actions;
 
 export const selectedNote = (state: RootState) => state.notes.selected;

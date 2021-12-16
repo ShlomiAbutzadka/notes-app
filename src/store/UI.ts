@@ -2,9 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface UIState {
   notification: string;
+  loading: boolean;
 }
 
-const initialState: UIState = { notification: "" };
+const initialState: UIState = { notification: "", loading: false };
 
 export const uiSlice = createSlice({
   name: "ui",
@@ -13,9 +14,15 @@ export const uiSlice = createSlice({
     updateNotification: (state, action) => {
       state.notification = action.payload;
     },
+    startLoading: (state) => {
+      state.loading = true;
+    },
+    finishLoading: (state) => {
+      state.loading = false;
+    },
   },
 });
 
-export const { updateNotification } = uiSlice.actions;
+export const { updateNotification, startLoading, finishLoading } = uiSlice.actions;
 
 export default uiSlice.reducer;

@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useAppDispatch } from "../../store/hooks";
-import { addNote, deleteNote } from "../../store/notes";
+import { createNote, deleteNote } from "../../store/notes";
 import { UIState } from "../../store/UI";
 import styles from "./Header.module.css";
 
@@ -13,11 +13,11 @@ const Header: React.FC<{ selected?: string }> = (props) => {
   const { notification } = uiState;
 
   const newClickHandler = () => {
-    dispatch(addNote());
+    dispatch(createNote());
   };
 
   const deleteClickHandler = () => {
-    dispatch(deleteNote());
+    dispatch(deleteNote(selected!));
   };
 
   const { selected } = props;
