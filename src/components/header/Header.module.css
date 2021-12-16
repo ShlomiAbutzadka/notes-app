@@ -1,0 +1,38 @@
+.header {
+  background-color: #121212;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+}
+
+.title {
+  align-self: center;
+  font-weight: 600;
+  font-size: 24px;
+  font-family: "Inter";
+  color: #9C27B0;
+}
+
+.notification {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-self: center;
+  padding: 0 32px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: "Inter";
+  font-style: italic;
+  color: #fff;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Inter";
+}
+
+.actions button {
+  margin: 0 4px;
+  font-weight: 600;
+}
