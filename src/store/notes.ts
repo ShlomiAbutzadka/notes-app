@@ -1,34 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Note } from "../models/note";
 import { RootState } from "./index";
+import { v4 as uuidv4 } from "uuid";
 
 export interface NotesState {
   items: Note[];
-  selected: Note | null;
+  selected?: string;
 }
 
 const initialState: NotesState = {
   items: [],
-  selected: null,
 };
 
 export const notesSlice = createSlice({
   name: "notes",
   initialState,
   reducers: {
-    addNote: (state, action) => {
-      state.items.push(action.payload);
+    addNote: (state) => {
+      const id: string = uuidv4();
+      const newNote: Note = { id, text: "" };
+      state.items.push(newNote);
+      state.selected = id;
     },
     updateNote: (state, action) => {
       const { payload: updatedItem } = action;
-      const itemIndex: number = state.items.findIndex(
-        (item) => item.id === updatedItem.id
-      );
-      state.items[itemIndex] = updatedItem;
+      const { selected } = state;
+      if (!selected) return;
     },
-    deleteNote: (state, action) => {
-      const { payload: id } = action;
-      state.items = state.items.filter((item) => item.id !== id);
+    deleteNote: (state) => {
+      state.items = state.items.filter(
+        (item, index) => item.id !== state.selected
+      );
+      state.selected = state.items.length ? state.items[0].id : undefined;
     },
     selectNote: (state, action) => {
       state.selected = action.payload;
