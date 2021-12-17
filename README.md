@@ -1,5 +1,3 @@
-[![LinkedIn][linkedin-shield]][https://www.linkedin.com/in/shlomiabutz/]]
-
 # React Redux & Typescript Notes App
 
 <!-- TABLE OF CONTENTS -->
