@@ -1,13 +1,12 @@
-import { Note } from "../../models/note";
+import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import { Note } from "../../models/note";
 import { useAppDispatch } from "../../store/hooks";
 import { selectNote } from "../../store/notes";
 import styles from "./NotesList.module.css";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
 const NotesList: React.FC<{ items: Note[]; selected?: string }> = (props) => {
   const dispatch = useAppDispatch();

@@ -3,7 +3,7 @@ import { Note } from "../../models/note";
 import { RootState } from "../../store";
 import { useAppDispatch } from "../../store/hooks";
 import { deleteNote, NotesState } from "../../store/notes";
-import { closeModal, openModal, UIState } from "../../store/UI";
+import { closeModal, UIState } from "../../store/UI";
 import Content from "../content/Content";
 import DeleteModal from "../delete-modal/DeleteModal";
 import EmptyState from "../empty-state/EmptyState";

@@ -1,7 +1,7 @@
-import { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { Note } from "../../models/note";
 import { useAppDispatch } from "../../store/hooks";
-import notes, { updateNote } from "../../store/notes";
+import { updateNote } from "../../store/notes";
 import { updateNotification } from "../../store/UI";
 import styles from "./Content.module.css";
 
@@ -18,45 +18,45 @@ const Content: React.FC<{ note: Note }> = (props) => {
 
   const dispatch = useAppDispatch();
 
-  const save = () => {
+  const save = useCallback(() => {
     const updatedText: string = text || "";
     const updatedNote: Note = {
       ...note,
       text: updatedText,
     };
     dispatch(updateNote(updatedNote));
-  };
+  }, [note, text, dispatch]);
 
   const secondsAgo = (ms: number) => {
     return Math.round(new Date().getTime() / 1000) - Math.round(ms / 1000);
   };
 
-  const updateLastSaved = (message: string) => {
-    dispatch(updateNotification(message));
-  };
-
   useEffect(() => {
     const interval = setInterval(() => {
       note.lastSave &&
-        updateLastSaved(`Last saved ${secondsAgo(note.lastSave!)} seconds ago`);
+        dispatch(
+          updateNotification(
+            `Last saved ${secondsAgo(note.lastSave!)} seconds ago`
+          )
+        );
     }, LAST_SAVE_INTERVAL);
     return () => clearInterval(interval);
-  }, [note.lastSave]);
+  }, [note.lastSave, dispatch]);
 
   useEffect(() => {
-    if (!text && !note.text || !dirty) return;
+    if (!dirty) return;
     const timer = setTimeout(() => {
       save();
     }, AUTOSAVE_INTERVAL);
     return () => clearTimeout(timer);
-  }, [text]);
+  }, [dirty, save]);
 
   useEffect(() => {
-    setDirty(false);
     updateText(note.text);
     textareaRef.current!.focus();
 
-  }, [note.id]);
+    return () => setDirty(false);
+  }, [note.id, note.text]);
 
   const onBlurHandler = () => {
     if (!dirty) return;

@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useAppDispatch } from "../../store/hooks";
-import { createNote, deleteNote } from "../../store/notes";
+import { createNote } from "../../store/notes";
 import { openModal, UIState } from "../../store/UI";
 import styles from "./Header.module.css";
 

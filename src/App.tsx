@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getNotes());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="App">
